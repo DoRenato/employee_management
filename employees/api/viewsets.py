@@ -39,3 +39,35 @@ class EmployeesViewSet(ModelViewSet):
         employee.save()
 
         return Response("A new employee has been registered successfully.")
+
+    # Como o departamento é uma Chave estrangeira, precisei sobrescrever as duas actions a seguir para poder atualizar esta chave
+    # sempre que necessário.
+    
+    # Sobrescrevendo a action PUT
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        try:
+            department = Department.objects.get(department = request.data["department"])
+        except:
+            department = Department()
+            department.department = request.data["department"]
+            department.save()
+
+        employee = Employee.objects.get(id=instance.id)
+        employee.department = department
+        employee.save()
+        return Response('PUT sucessfully.')
+    
+    # Sobrescrevendo a action PATCH
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        try:
+            department = Department.objects.get(department = request.data["department"])
+        except:
+            department = Department()
+            department.department = request.data["department"]
+            department.save()
+        employee = Employee.objects.get(id=instance.id)
+        employee.department = department
+        employee.save()
+        return Response('PATCH sucessfully.')
