@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-from datetime import datetime, date
+from datetime import date
 
 from employees.api.serializers import EmployeesSerializer
 from .serializers import *
