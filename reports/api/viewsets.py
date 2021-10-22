@@ -71,8 +71,8 @@ class ReportSalaryViewSet(ModelViewSet):
 
 
 """
-Para o EndPoint de verificação das idades, a lógica foi quase que igual a do Salário (ViewSet acima), portanto, só irei comentar
-as alterações mais específicas desse Endpoint.
+Para o EndPoint de verificação das idades, a lógica foi quase que igual a do Salário (ViewSet acima), só mudou o nome das variáveis
+bem dizer, portanto, só irei comentar as alterações mais específicas deste Endpoint.
 """
 class ReportAgeViewSet(ModelViewSet):
     queryset = Employee.objects.all()
