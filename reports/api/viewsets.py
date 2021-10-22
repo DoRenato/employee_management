@@ -9,16 +9,20 @@ from .serializers import *
 from employees.models import *
 from reports.models import *
 
-def convertJson(queryset):
+def convert2Json(queryset): #Função para converter todos os dados que estão no formato queryset em um dicionário python.
     data={}
-    data['id'] = str(queryset.id)
+    data['id'] = str(queryset.id) # Como o ID é um campo do tipo Inteiro(int) no queryset, converto ele para string(str).
     data['name'] = queryset.name
     data['email'] = queryset.email
     data['department'] = queryset.department
-    data['salary'] = str(queryset.salary)
-    data['birth_date'] = queryset.birth_date.strftime('%d-%m-%Y') 
+    data['salary'] = str(queryset.salary) # Situação semelhante do ID, mas neste campo o formato é do tipo DecimalField(Ou float).
+    data['birth_date'] = queryset.birth_date.strftime('%d-%m-%Y') # Apanas modificando a data padrão de 'aaaa-mm-dd' para 'dd-mm-aaaa' através da função 'strftime()'
     return data
-    
+
+def calculate_age(born): # Função para calcular a idade atual
+    today = date.today() # através da biblioteca 'date' do python, posso pegar o data atual do sistema chamando a função 'today()'.
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day)) # Diminui primeiro o ano de nascimento do ano atual, e então faz a subtração dos meses/dias.
+
 
 class ReportSalaryViewSet(ModelViewSet):
     queryset = Employee.objects.all()
@@ -26,19 +30,18 @@ class ReportSalaryViewSet(ModelViewSet):
     
     ## Sobrescrevendo a Action GET
     def list(self, request, *args, **kwargs):
-        data={}
 
         ## PEGANDO O MENOR SALÁRIO ===
         lowest = self.queryset.aggregate(Min('salary')) # Busca em todos os funcionários cadastrados quais tem o menor valor de salário.
         lowest = Employee.objects.filter(salary = lowest['salary__min']) # Filtra e retorna uma lista com todos os dados de todos os funcionários que tiveram o menor valor encontrado. 
         lowest = lowest[0] # Como todos os encontrados tem o mesmo salário, então basta pegar somente o primeiro da lista.
-        lowest = convertJson(lowest) # Converte a lista do tipo <QueryDict> em formato de JSON
+        lowest = convert2Json(lowest) # Converte a lista do tipo <QueryDict> em formato de JSON
 
         ## PEGANDO O MAIOR SALÁRIO ===
         highest = self.queryset.aggregate(Max('salary')) # Busca em todos os funcionários cadastrados quais tem o maior valor de salário.
         highest = Employee.objects.filter(salary = highest['salary__max']) # Filtra e retorna uma lista com todos os dados de todos os funcionários que tiveram o maior valor encontrado. 
         highest = highest[0] # Como todos os encontrados tem o mesmo salário, então basta pegar somente o primeiro da lista.
-        highest = convertJson(highest)
+        highest = convert2Json(highest)
         
         ## CALCULANDO A MÉDIA
         average = (float(lowest['salary']) + float(highest['salary']))/2 # Calcula a média entre os dois salários.
@@ -59,6 +62,7 @@ class ReportSalaryViewSet(ModelViewSet):
         salary.average = average
         salary.save()
 
+        data={}
         data['lowest'] = salary.lowest
         data['highest'] = salary.highest
         data['average'] =  salary.average
@@ -66,6 +70,41 @@ class ReportSalaryViewSet(ModelViewSet):
         return Response (data)
 
 
+"""
+Para o EndPoint de verificação das idades, a lógica foi quase que igual a do Salário (ViewSet acima), portanto, só irei comentar
+as alterações mais específicas desse Endpoint.
+"""
 class ReportAgeViewSet(ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeesSerializer
+
+    def list(self, request, *args, **kwargs):
+        age_older = self.queryset.aggregate(Min('birth_date')) # Como no salário, mas ao invés de buscar o menor salário, busco a menor data do sistema.
+        older = Employee.objects.filter(birth_date = age_older['birth_date__min'])
+        older = older[0]
+        older = convert2Json(older)
+
+        age_younger = self.queryset.aggregate(Max('birth_date'))
+        younger = Employee.objects.filter(birth_date = age_younger['birth_date__max'])
+        younger = younger[0]
+        younger = convert2Json(younger)
+        
+        average = (calculate_age(age_older['birth_date__min']) + calculate_age(age_younger['birth_date__max']))/2
+        average="{:.2f}".format(average)
+
+        age = ReportAge.objects.all() 
+        if len(age) == 0: 
+            age = ReportAge() 
+        else:
+            age = ReportAge.objects.get(id=age[0].id)
+        age.younger = younger
+        age.older = older
+        age.average = average
+        age.save()
+
+        data={}
+        data['younger']=age.younger
+        data['older']=age.older
+        data['average']=age.average
+        
+        return Response(data)
