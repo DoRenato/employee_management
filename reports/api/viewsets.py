@@ -12,14 +12,14 @@ from employees.models import *
 from reports.models import *
 
 def convert2Json(queryset): #Função para converter todos os dados que estão no formato queryset em um dicionário python.
-    data={}
-    data['id'] = str(queryset.id) # Como o ID é um campo do tipo Inteiro(int) no queryset, converto ele para string(str).
-    data['name'] = queryset.name
-    data['email'] = queryset.email
-    data['department'] = queryset.department
-    data['salary'] = str(queryset.salary) # Situação semelhante do ID, mas neste campo o formato é do tipo DecimalField(Ou float).
-    data['birth_date'] = queryset.birth_date.strftime('%d-%m-%Y') # Apanas modificando a data padrão de 'aaaa-mm-dd' para 'dd-mm-aaaa' através da função 'strftime()'
-    return data
+    data_dictionary={}
+    data_dictionary['id'] = str(queryset.id) # Como o ID é um campo do tipo Inteiro(int) no queryset, converto ele para string(str).
+    data_dictionary['name'] = queryset.name
+    data_dictionary['email'] = queryset.email
+    data_dictionary['department'] = queryset.department
+    data_dictionary['salary'] = str(queryset.salary) # Situação semelhante do ID, mas neste campo o formato é do tipo DecimalField(Ou float).
+    data_dictionary['birth_date'] = queryset.birth_date.strftime('%d-%m-%Y') # Apanas modificando a data padrão de 'aaaa-mm-dd' para 'dd-mm-aaaa' através da função 'strftime()'
+    return data_dictionary
 
 def calculate_age(born): # Função para calcular a idade atual
     today = date.today() # através da biblioteca 'date' do python, posso pegar o data atual do sistema chamando a função 'today()'.
@@ -67,12 +67,12 @@ class ReportSalaryViewSet(ModelViewSet):
         salary.average = average
         salary.save()
 
-        data={}
-        data['lowest'] = salary.lowest
-        data['highest'] = salary.highest
-        data['average'] =  salary.average
+        data_dictionary={}
+        data_dictionary['lowest'] = salary.lowest
+        data_dictionary['highest'] = salary.highest
+        data_dictionary['average'] =  salary.average
 
-        return Response (data)
+        return Response (data_dictionary)
 
 
 """
@@ -110,9 +110,9 @@ class ReportAgeViewSet(ModelViewSet):
         age.average = average
         age.save()
 
-        data={}
-        data['younger']=age.younger
-        data['older']=age.older
-        data['average']=age.average
+        data_dictionary={}
+        data_dictionary['younger']=age.younger
+        data_dictionary['older']=age.older
+        data_dictionary['average']=age.average
         
-        return Response(data)
+        return Response(data_dictionary)
