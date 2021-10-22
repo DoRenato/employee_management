@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
 
     'employees',
     'reports',
@@ -135,4 +136,4 @@ REST_FRAMEWORK = {
 }
 
 DATE_FORMAT= "%d-%m-%Y"
-DATE_INPUT_FORMATS= "%d-%m-%Y",
+DATE_INPUT_FORMATS= "%d-%m-%Y"

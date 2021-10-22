@@ -1,5 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+
 from .serializers import *
 from employees.models import *
 
@@ -7,6 +10,9 @@ from employees.models import *
 class EmployeesViewSet(ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeesSerializer
+    permission_classes = [IsAuthenticated, ] # Define qual o tipo permissão será aceita, neste caso, será permitido acessar essa ViewSet se o usuario estiver autenticado.
+    authentication_classes = [TokenAuthentication, ] # Define qual o tipo de autenticação é utilizada, neste caso utilizei autenticação por Token, que considero mais eficaz.
+
 
     # Sobrescrevendo a action POST
     def create(self, request, *args, **kwargs):
