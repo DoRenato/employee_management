@@ -4,10 +4,6 @@ from employees.models import *
 
 
 class EmployeesSerializer(ModelSerializer):
-    department = SerializerMethodField()
     class Meta:
         model = Employee
         fields = ('id','name','email','department','salary','birth_date')
-    
-    def get_department(self, obj):
-        return "%s" %(obj.department)
