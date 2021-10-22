@@ -1,5 +1,4 @@
-from rest_framework.fields import SerializerMethodField
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer
 from employees.models import *
 
 
