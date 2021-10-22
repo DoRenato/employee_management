@@ -18,15 +18,14 @@ from django.urls import path, include
 from rest_framework import routers
 
 from employees.api.viewsets import EmployeesViewSet
-from reports.api.viewsets import ReportSalaryViewSet
+from reports.api.viewsets import ReportSalaryViewSet, ReportAgeViewSet
 
 router = routers.DefaultRouter()
 router.register(r'employees', EmployeesViewSet)
-router.register(r'reports/employees/salary', ReportSalaryViewSet, basename="Employee")
-# router.register(r'reports/employees/age', ReportAgeViewSet)
+router.register(r'reports/employees/salary', ReportSalaryViewSet)
+router.register(r'reports/employees/age', ReportAgeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('', include(router.urls)),
 ]
