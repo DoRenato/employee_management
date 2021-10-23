@@ -38,7 +38,7 @@ E Pronto, tudo está preparado e funcionando para execução da API.
 ```
 - Com o **Token** gerado, é preciso adicioná-lo ao Header da requisição. A imagem a seguir mostra como dever ser adicionado utilizando o Postman:
 
-!(TODO)
+![Autenticação](https://raw.githubusercontent.com/DoRenato/employee_management/master/token.png)
 
 
 
