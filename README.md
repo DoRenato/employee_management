@@ -1,6 +1,11 @@
 # Sobre a API:
 
-## API no Ar
+## Importante
+
+### Observação
+Para cadastrar um novo funcionário não é necessário incluir o campo ID, pois o framework gera automaticamente este campo.
+
+### API no Ar
 
 A API está hospedada no Heroku, portanto, caso queira testar o funcionamento por completo antes de instalar na própria máquina, segue os Endpoints: 
 - https://emp-man-sw.herokuapp.com/employees/ - gerenciamento dos funcionários (GET, POST)
