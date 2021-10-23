@@ -29,14 +29,18 @@ E Pronto, tudo está preparado e funcionando para execução da API.
 ## Autenticação
 
 - Cadastre um novo usuario no sistema: http://localhost:8000/users/register
-- Utilizando o Postman ou qualquer outro API client, faça uma requição POST em http://localhost:8000/api-token-auth/ enviando o seguinte JSON:  
+- Utilizando o Postman ou qualquer outro API client, faça uma requição POST em http://localhost:8000/api-token-auth/ para receber o **Token** de Autorização necessário para acessar os Endpoints. O conteúdo da reuisição deve o seguinte JSON:  
 ```
 {
-    "username": user_que_foi_cadastrado,
-    "password": senha_do_user_cadastrado
+    "username": "user_que_foi_cadastrado",
+    "password": "senha_do_user_cadastrado"
 }
 ```
-E a API irá retornar o **Token** de Autorização.
+- Com o **Token** gerado, é preciso adicioná-lo ao Header da requisição. A imagem a seguir mostra como dever ser adicionado utilizando o Postman:
+
+!(TODO)
+
+
 
 
 
