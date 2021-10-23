@@ -26,12 +26,12 @@ class EmployeesViewSet(ModelViewSet):
         # ======
 
         employee = Employee() # Criando um novo modelo do Tipo Funcionário, este modelo tem os mesmos campos do Exemplo do teste técnico.
-        employee.name = dictionary['name']
+        employee.name = dictionary['name'] # Preencho o campo 'name' do meu modelo com o 'name' que foi recebido pelo POST. A lógica é igual para as linhas abaixo.
         employee.department = dictionary['department']
         employee.salary = dictionary['salary']
         employee.email = dictionary['email']
         employee.birth_date = birth # Recebe a data que foi convertida no incio dessa action.
-        employee.save()
+        employee.save() # Com tudo preenchido, o modelo é de fato salvo no banco assim criando uma nova tupla.
 
         return Response("A new employee has been registered successfully.")
 

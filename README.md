@@ -29,22 +29,23 @@ E Pronto, tudo está preparado e funcionando para execução da API.
 ## Autenticação
 
 - Cadastre um novo usuario no sistema: http://localhost:8000/users/register
-- Utilizando o Postman ou qualquer outro API client, faça uma requição POST em http://localhost:8000/api-token-auth/ para receber o **Token** de Autorização necessário para acessar os Endpoints. O conteúdo da reuisição deve o seguinte JSON:  
+- Utilizando o Postman ou qualquer outro API client, faça uma requição POST em http://localhost:8000/api-token-auth/ para receber o **Token** de Autorização necessário para acessar os Endpoints. O conteúdo da requisição deve ser o seguinte JSON:  
 ```
 {
     "username": "user_que_foi_cadastrado",
     "password": "senha_do_user_cadastrado"
 }
 ```
-- Com o **Token** gerado, é preciso adicioná-lo ao Header da requisição. A imagem a seguir mostra como dever ser adicionado utilizando o Postman:
+- Com o **Token** gerado, é preciso adicioná-lo ao Header sempre que for fazer qualquer requisição em qualquer Endpoint da API. A imagem a seguir mostra como dever ser adicionado utilizando o Postman:
 
 ![Autenticação](https://raw.githubusercontent.com/DoRenato/employee_management/master/token.png)
 
+Com isso, o acesso a API está liberado para fazer qualquer uma das operações esperadas.
 
+### Extras
+- O código está todo comentando, busquei explicar cada passo do algorítmo para melhor entendimento da lógica.
+- Caso queira acessar o banco para verificar todos os dados armazenados, os passos são:
+1. Vá para pasta raiz do projeto e através do terminal execute o comando *python manage.py createsuperuser* e coloque as credenciais requisitadas.
+2. Com o super usuário criado, acesse http://localhost:8000/admin/ e faça login. Com isso, você terá acesso a todas os dados cadastrados no banco.
 
-
-
-
-
-
-(ou https://emp-man-sw.herokuapp.com/users/register pelo heroku)
+- Tanto os Endpoints do servidor local quanto do Heroku são os mesmos, só muda os hosts.

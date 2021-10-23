@@ -76,7 +76,7 @@ class ReportSalaryViewSet(ModelViewSet):
 
 
 """
-Para o EndPoint de verificação das idades, a lógica foi quase que igual a do Salário (ViewSet acima), só mudou o nome das variáveis
+Para o EndPoint de relatório das idades, a lógica foi quase que igual a do Salário (ViewSet acima), só mudou o nome das variáveis
 bem dizer, portanto, só irei comentar as alterações mais específicas deste Endpoint.
 """
 class ReportAgeViewSet(ModelViewSet):
@@ -87,7 +87,7 @@ class ReportAgeViewSet(ModelViewSet):
 
 
     def list(self, request, *args, **kwargs):
-        age_older = self.queryset.aggregate(Min('birth_date')) # Como no salário, mas ao invés de buscar o menor salário, busco a menor data do sistema.
+        age_older = self.queryset.aggregate(Min('birth_date')) # Como no salário, mas ao invés de buscar o menor salário, busco a menor data do sistema, ou seja, a mais antiga.
         older = Employee.objects.filter(birth_date = age_older['birth_date__min'])
         older = older[0]
         older = convert2Json(older)
